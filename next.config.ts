@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
      // Only import used components from these packages
      optimizePackageImports: ['framer-motion'],
      // Enable React optimization features
-     optimizeCss: true,
+     optimizeCss: false,
      // Use memory cache for improved performance
      memoryBasedWorkersCount: true,
     serverMinification: false
