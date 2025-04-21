@@ -1,13 +1,58 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParamsWrapper } from "./useSearchParamsWrapper";
 
+// This is the main component that uses the wrapped search params
 export default function PageProgressBar() {
   const [progress, setProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+
+  return (
+    <Suspense fallback={<ProgressBarFallback />}>
+      <ProgressBarWithParams 
+        progress={progress}
+        setProgress={setProgress}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        pathname={pathname}
+      />
+    </Suspense>
+  );
+}
+
+// Fallback component when suspense is loading
+function ProgressBarFallback() {
+  return (
+    <div className="fixed top-0 left-0 right-0 h-1 z-50 pointer-events-none">
+      <div 
+        className="h-full bg-primary animate-pulse"
+        style={{ 
+          width: '60%',
+          boxShadow: '0 0 10px rgba(255, 107, 0, 0.5)'
+        }}
+      />
+    </div>
+  );
+}
+
+// Component that safely uses useSearchParams inside Suspense
+function ProgressBarWithParams({ 
+  progress, 
+  setProgress, 
+  isVisible, 
+  setIsVisible,
+  pathname
+}: {
+  progress: number;
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
+  isVisible: boolean;
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  pathname: string;
+}) {
+  const searchParams = useSearchParamsWrapper();
 
   useEffect(() => {
     // Reset progress and show progress bar on route change
@@ -16,7 +61,7 @@ export default function PageProgressBar() {
 
     // Simulate progress
     const interval = setInterval(() => {
-      setProgress((prev) => {
+      setProgress((prev: number) => {
         // Slowly increase to 90%
         if (prev < 90) {
           return prev + (90 - prev) * 0.1;
@@ -41,7 +86,7 @@ export default function PageProgressBar() {
       clearInterval(interval);
       clearTimeout(completeTimeout);
     };
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, setProgress, setIsVisible]);
 
   return (
     <div 
