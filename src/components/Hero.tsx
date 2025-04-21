@@ -125,7 +125,7 @@ export default function Hero() {
                 className="relative w-[380px] h-[320px] md:w-[500px] md:h-[400px] rounded-2xl overflow-hidden border-8 border-background shadow-2xl"
               >
                 <Image
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvq1jFT0fR5gWni8C_9pBMjNnq6aKYjsxDHA&s"
+                  src="/assets/profile.jpg"
                   alt="David's profile"
                   fill
                   sizes="(max-width: 768px) 380px, 500px"
