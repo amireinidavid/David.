@@ -1,5 +1,10 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "NODE_OPTIONS='--max_old_space_size=4096' npm run build",
   "installCommand": "npm install --platform=linux --architecture=x64",
-  "outputDirectory": ".next"
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "buildEnvironment": {
+    "NEXT_PRIVATE_STANDALONE": "true",
+    "NEXT_DISABLE_CSS_OPTIMIZATION": "true"
+  }
 } 
